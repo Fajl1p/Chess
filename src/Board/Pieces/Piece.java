@@ -1,0 +1,160 @@
+package Board.Pieces;
+
+import Board.Square;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Map;
+
+public class Piece {
+    ImageIcon image;
+    Point imageCorner;
+    Point coordinates;
+    Rectangle bounds;
+    boolean isWhite;
+    boolean isMoved = false;
+
+    Piece(boolean isWhite, int boardLength, int x, int y){
+        coordinates = new Point(x, y);
+        imageCorner = new Point(x*(boardLength/8), y*(boardLength/8));
+        this.isWhite = isWhite;
+        String directory;
+        if (isWhite){
+            directory = getDirectoryW();
+        }
+        else{
+            directory = getDirectoryB();
+        }
+
+        ImageIcon oldIcon = new ImageIcon(directory);
+        image = new ImageIcon(oldIcon.getImage().getScaledInstance(boardLength/8, boardLength/8,  java.awt.Image.SCALE_SMOOTH));
+
+        bounds = new Rectangle(0, 0, 0, 0);
+        bounds.setLocation(imageCorner);
+        bounds.setSize(image.getIconWidth(), image.getIconHeight());
+    }
+
+    public ImageIcon getImage(){
+        return image;
+    }
+
+    public Point getImageCorner() {
+        return imageCorner;
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
+
+    public Point getCoordinates() {
+        return coordinates;
+    }
+
+
+
+    public void setImageCorner(int x, int y) {
+        this.imageCorner = new Point(x, y);
+    }
+
+    public void setCoordinates(int x, int y) {
+        this.coordinates = new Point(x, y);
+    }
+
+    public void setBounds(Rectangle bounds) {
+        this.bounds = bounds;
+    }
+
+    public boolean isWhite() {
+        return isWhite;
+    }
+
+    public boolean isMoved() {
+        return isMoved;
+    }
+
+    public void setMoved(boolean moved) {
+        isMoved = moved;
+    }
+
+    public void paint(Component c, Graphics g){
+        image.paintIcon(c, g, imageCorner.x, imageCorner.y);
+    }
+
+    public void pressed(MouseEvent e){
+        imageCorner.x = e.getX()-image.getIconWidth()/2;
+        imageCorner.y = e.getY()-image.getIconHeight()/2;
+    }
+
+    public void released(MouseEvent e, int boardLength, ArrayList<Piece> pieces, Map<Point, Square> squares){
+        Point newCoordinates = new Point((int)(e.getX()/(boardLength/8)),(int)(e.getY()/(boardLength/8)));
+
+        if (moves(squares).contains(newCoordinates)){
+            squares.get(coordinates).setPiece(null);
+
+            if (squares.get(newCoordinates).getPiece()!=null){
+                pieces.remove(squares.get(newCoordinates).getPiece());
+            }
+
+            squares.get(newCoordinates).setPiece(this);
+
+            coordinates = newCoordinates;
+
+            imageCorner.x = newCoordinates.x*(boardLength/8);
+            imageCorner.y = newCoordinates.y*(boardLength/8);
+
+            bounds.setLocation(imageCorner.x, imageCorner.y);
+            isMoved = true;
+        }
+        else{
+            imageCorner.x = coordinates.x*(boardLength/8);
+            imageCorner.y = coordinates.y*(boardLength/8);
+        }
+    }
+
+    public ArrayList<Point> moves(Map<Point, Square> squares){
+        ArrayList<Point> points = getPoints();
+
+        ArrayList<Point> coordinates = new ArrayList<>();
+        for (Point p : points){
+
+            if (areCoordinatesIn(p) && squares.get(p).getPiece()==null){
+                coordinates.add(p);
+            }
+            else if(areCoordinatesIn(p) && squares.get(p).getPiece()!=null && squares.get(p).getPiece().isWhite!=isWhite){
+                coordinates.add(p);
+            }
+        }
+
+        return coordinates;
+    }
+
+    public ArrayList<Point> getPoints(){
+        return null;
+    }
+
+    public String getDirectoryW(){
+        return null;
+    }
+
+    public String getDirectoryB(){
+        return null;
+    }
+
+    public boolean areCoordinatesIn(Point coordinates){
+        return !(coordinates.getX() < 0) && !(coordinates.getX() > 7) && !(coordinates.getY() < 0) && !(coordinates.getY() > 7);
+    }
+
+    public boolean isTherePiece(Map<Point, Square> squares, ArrayList<Point> coordinates, Point p) {
+        if (squares.get(p).getPiece()!=null){
+            if (squares.get(p).getPiece().isWhite != this.isWhite) {
+                coordinates.add(new Point(p.x, p.y));
+            }
+            return true;
+        }
+        coordinates.add(new Point(p.x,p.y));
+        return false;
+    }
+
+}
