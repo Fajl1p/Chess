@@ -1,4 +1,4 @@
-import Board.Board;
+import Board.BoardUI;
 
 import javax.swing.*;
 
@@ -8,8 +8,8 @@ public class Window extends JFrame {
         this.setTitle("Chess");
         this.setLocationRelativeTo(null);
 
-        Board board = new Board();
-        this.add(board);
+        BoardUI boardUI = new BoardUI();
+        this.add(boardUI);
         this.pack();
 
         this.setVisible(true);

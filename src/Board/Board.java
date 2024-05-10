@@ -2,58 +2,50 @@ package Board;
 
 import Board.Pieces.*;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class Board extends JPanel {
-    final int length = 720;
-    Color white = new Color(238, 238, 210, 255);
-    Color black = new Color(118, 150, 86, 255);
-
-    Knight knight = new Knight(true, length, 5,5);
-    King king = new King(false, length, 2,2);
-    King king2 = new King(true, length, 5,4);
-
-    Bishop bishop = new Bishop(false, length, 4,4);
-    Rook rook = new Rook(false, length, 0,0);
-    Pawn pawn = new Pawn(true, length, 1,6);
-    Pawn pawn2 = new Pawn(false, length, 2,1);
-    Queen queen = new Queen(true, length, 7,7);
-
-    Piece piece;
-
+public class Board {
     ArrayList<Piece> pieces = new ArrayList<>();
-
-    //Map<Point, Piece> pieces = new HashMap<>();
-
     Map<Point, Square> squares = new HashMap<>();
+    ArrayList<Piece> proPieces = new ArrayList<>();
+    int length;
 
+    public ArrayList<Piece> getPieces() {
+        return pieces;
+    }
 
+    public Map<Point, Square> getSquares() {
+        return squares;
+    }
 
-    Point previousPoint;
+    public ArrayList<Piece> getProPieces() {
+        return proPieces;
+    }
 
-    public Board(){
-        this.setPreferredSize(new Dimension(length,length));
+    public int getLength() {
+        return length;
+    }
 
-        ClickListener clickListener = new ClickListener();
-        this.addMouseListener(clickListener);
+    public Board(int length){
+        this.length=length;
+        Knight knight = new Knight(true, length, 5,5);
+        King king = new King(false, length, 2,2);
+        King king2 = new King(true, length, 5,4);
 
-        DragListener dragListener = new DragListener();
-        this.addMouseMotionListener(dragListener);
+        Bishop bishop = new Bishop(false, length, 4,4);
+        Rook rook = new Rook(false, length, 0,0);
+        Pawn pawn = new Pawn(true, length, 1,1);
+        Pawn pawn2 = new Pawn(false, length, 2,6);
+        Pawn pawn3 = new Pawn(true, length, 6,6);
+        Queen queen = new Queen(true, length, 7,7);
 
-        for (int x = 0; x<8; x++){
-            for (int y = 0; y<8; y++){
-                squares.put(new Point(x,y), new Square());
-            }
-        }
+        Queen proQueen = new Queen(true, length, 1,0);
+        Rook proRook = new Rook(true, length, 1,1);
+        Knight proknight = new Knight(true, length, 1,2);
+        Bishop proBishop = new Bishop(true, length, 1,3);
 
         pieces.add(knight);
         pieces.add(king);
@@ -62,22 +54,28 @@ public class Board extends JPanel {
         pieces.add(rook);
         pieces.add(pawn);
         pieces.add(pawn2);
+        pieces.add(pawn3);
         pieces.add(queen);
 
-        squares.get(knight.getCoordinates()).setPiece(knight);
-        squares.get(king.getCoordinates()).setPiece(king);
-        squares.get(king2.getCoordinates()).setPiece(king2);
-        squares.get(bishop.getCoordinates()).setPiece(bishop);
-        squares.get(rook.getCoordinates()).setPiece(rook);
-        squares.get(pawn.getCoordinates()).setPiece(pawn);
-        squares.get(pawn2.getCoordinates()).setPiece(pawn2);
-        squares.get(queen.getCoordinates()).setPiece(queen);
+        proPieces.add(proQueen);
+        proPieces.add(proRook);
+        proPieces.add(proknight);
+        proPieces.add(proBishop);
+
+
+        for (int x = 0; x<8; x++){
+            for (int y = 0; y<8; y++){
+                squares.put(new Point(x,y), new Square());
+            }
+        }
+
+        for (Piece p : pieces){
+            squares.get(p.getCoordinates()).setPiece(p);
+        }
 
     }
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void paintBoard(Graphics g, Color white, Color black){
         for (int x = 0; x<8; x++){
             for (int y = 0; y<8; y++){
                 if (x%2==0 && y%2==0 || x%2!=0 && y%2!=0){
@@ -90,59 +88,29 @@ public class Board extends JPanel {
 
             }
         }
+    }
 
+    public void paintPieces(Component c,Graphics g ,boolean isPromoting){
         for (Piece p : pieces){
-            p.paint(this, g);
-        }
-    }
-
-    private class ClickListener extends MouseAdapter{
-        @Override
-        public void mousePressed(MouseEvent e) {
-            super.mousePressed(e);
-            for (Piece p : pieces){
-                if (p.getBounds().contains(e.getPoint())){
-                    piece = p;
-                    piece.pressed(e);
-                    previousPoint = e.getPoint();
-
-                    repaint();
-                }
-            }
+            p.paint(c, g);
         }
 
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            super.mouseReleased(e);
-            previousPoint = null;
-            if (piece != null){
-                piece.released(e, length, pieces, squares);
-                piece = null;
-                repaint();
+        if (isPromoting){
+            for (Piece p : proPieces){
+                g.setColor(Color.WHITE);
+                g.fillRect((int)p.getCoordinates().getX()*(length/8),(int)p.getCoordinates().getY()*(length/8),length/8,length/8);
+
+                p.paint(c, g);
             }
         }
     }
 
+    public void promote(Piece piece, Piece piece2){
+        Piece newPiece = piece.promote(piece2);
+        pieces.add(newPiece);
+        squares.get(piece.getCoordinates()).setPiece(newPiece);
 
-    private class DragListener extends MouseMotionAdapter{
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            if (previousPoint != null){
-                super.mouseDragged(e);
-                Point currentPoint = e.getPoint();
-
-                piece.getImageCorner().translate((int)(currentPoint.getX() - previousPoint.getX()),
-                                       (int)(currentPoint.getY() - previousPoint.getY()));
-
-                System.out.println((int)(currentPoint.getX()/(length/8)));
-                System.out.println((int)(currentPoint.getY()/(length/8)));
-                System.out.println(piece.getImageCorner());
-                System.out.println(piece);
-
-                previousPoint = currentPoint;
-
-                repaint();
-            }
-        }
+        pieces.remove(piece);
     }
+
 }
