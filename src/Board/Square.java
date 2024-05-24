@@ -11,16 +11,16 @@ public class Square {
         return isAttackedByWhite;
     }
 
-    public void setAttackedByWhite(boolean attackedByWhite) {
-        isAttackedByWhite = attackedByWhite;
+    public void setAttackedByWhite() {
+        isAttackedByWhite = true;
     }
 
     public boolean isAttackedByBlack() {
         return isAttackedByBlack;
     }
 
-    public void setAttackedByBlack(boolean attackedByBlack) {
-        isAttackedByBlack = attackedByBlack;
+    public void setAttackedByBlack() {
+        isAttackedByBlack = true;
     }
 
     public Piece getPiece() {
@@ -29,5 +29,10 @@ public class Square {
 
     public void setPiece(Piece piece) {
         this.piece = piece;
+    }
+
+    public void removeAttacks() {
+        isAttackedByWhite = false;
+        isAttackedByBlack = false;
     }
 }

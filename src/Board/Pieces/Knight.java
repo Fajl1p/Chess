@@ -33,6 +33,8 @@ public class Knight extends Piece{
         points.add(new Point(coordinates.x-1, coordinates.y+2));
         points.add(new Point(coordinates.x+1, coordinates.y-2));
         points.add(new Point(coordinates.x-1, coordinates.y-2));
+
+        points.removeIf(p -> !areCoordinatesIn(p));
         return points;
     }
 }

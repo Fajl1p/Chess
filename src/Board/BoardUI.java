@@ -89,6 +89,7 @@ public class BoardUI extends JPanel {
                 if (!isPromoting){
                     piece = null;
                 }
+                board.updateSquares();
                 repaint();
             }
         }

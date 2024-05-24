@@ -60,4 +60,21 @@ public class Pawn extends Piece{
         }
         return coordinates;
     }
+
+    @Override
+    public ArrayList<Point> attackedSquares(Map<Point, Square> squares){
+        ArrayList<Point> coordinates = new ArrayList<>();
+
+        if (this.isWhite){
+            coordinates.add(new Point(this.coordinates.x-1, this.coordinates.y-1));
+            coordinates.add(new Point(this.coordinates.x+1, this.coordinates.y-1));
+        }
+        else{
+            coordinates.add(new Point(this.coordinates.x-1, this.coordinates.y+1));
+            coordinates.add(new Point(this.coordinates.x+1, this.coordinates.y+1));
+        }
+
+        coordinates.removeIf(p -> !areCoordinatesIn(p));
+        return coordinates;
+    }
 }

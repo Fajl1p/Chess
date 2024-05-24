@@ -219,15 +219,19 @@ public class Piece {
         ArrayList<Point> coordinates = new ArrayList<>();
         for (Point p : points){
 
-            if (areCoordinatesIn(p) && squares.get(p).getPiece()==null){
+            if (squares.get(p).getPiece()==null){
                 coordinates.add(p);
             }
-            else if(areCoordinatesIn(p) && squares.get(p).getPiece()!=null && squares.get(p).getPiece().isWhite!=isWhite){
+            else if(squares.get(p).getPiece()!=null && squares.get(p).getPiece().isWhite!=isWhite){
                 coordinates.add(p);
             }
         }
 
         return coordinates;
+    }
+
+    public ArrayList<Point> attackedSquares(Map<Point, Square> squares){
+        return getPoints();
     }
 
     public ArrayList<Point> getPoints(){
@@ -246,15 +250,7 @@ public class Piece {
         return !(coordinates.getX() < 0) && !(coordinates.getX() > 7) && !(coordinates.getY() < 0) && !(coordinates.getY() > 7);
     }
 
-    public boolean isTherePiece(Map<Point, Square> squares, ArrayList<Point> coordinates, Point p) {
-        if (squares.get(p).getPiece()!=null){
-            if (squares.get(p).getPiece().isWhite != this.isWhite) {
-                coordinates.add(new Point(p.x, p.y));
-            }
-            return true;
-        }
-        coordinates.add(new Point(p.x,p.y));
-        return false;
+    public boolean isTherePiece(Map<Point, Square> squares, Point p) {
+        return squares.get(p).getPiece() != null;
     }
-
 }

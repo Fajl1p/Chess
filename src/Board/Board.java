@@ -73,6 +73,7 @@ public class Board {
             squares.get(p.getCoordinates()).setPiece(p);
         }
 
+        setAttackedSquares();
     }
 
     public void paintBoard(Graphics g, Color white, Color black){
@@ -113,4 +114,36 @@ public class Board {
         pieces.remove(piece);
     }
 
+    public void updateSquares(){
+        //remove attacked squares
+        for (Square s : squares.values()) {
+            s.removeAttacks();
+        }
+
+        //set attacked squares
+        for (Piece p : pieces){
+            for (Point attackedPoint : p.attackedSquares(squares)){
+                if (p.isWhite()){
+                    squares.get(attackedPoint).setAttackedByWhite();
+                }
+                else{
+                    squares.get(attackedPoint).setAttackedByBlack();
+                }
+            }
+        }
+    }
+
+
+    public void setAttackedSquares(){
+        for (Piece p : pieces){
+            for (Point attackedPoint : p.attackedSquares(squares)){
+                if (p.isWhite()){
+                    squares.get(attackedPoint).setAttackedByWhite();
+                }
+                else{
+                    squares.get(attackedPoint).setAttackedByBlack();
+                }
+            }
+        }
+    }
 }
