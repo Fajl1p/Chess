@@ -94,7 +94,7 @@ public class Bishop extends Piece{
         Point p = new Point(this.coordinates.x+1,this.coordinates.y+1);
         while(areCoordinatesIn(p)){
             coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
+            if (isTherePiece(squares, p) && !(squares.get(p).getPiece().isWhite != isWhite && squares.get(p).getPiece() instanceof King)){
                 break;
             }
             p.setLocation(p.x+1,p.y+1);
@@ -104,7 +104,7 @@ public class Bishop extends Piece{
         p.y=this.coordinates.y-1;
         while(areCoordinatesIn(p)){
             coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
+            if (isTherePiece(squares, p) && !(squares.get(p).getPiece().isWhite != isWhite && squares.get(p).getPiece() instanceof King)){
                 break;
             }
             p.setLocation(p.x+1,p.y-1);
@@ -114,7 +114,7 @@ public class Bishop extends Piece{
         p.y=this.coordinates.y+1;
         while(areCoordinatesIn(p)){
             coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
+            if (isTherePiece(squares, p) && !(squares.get(p).getPiece().isWhite != isWhite && squares.get(p).getPiece() instanceof King)){
                 break;
             }
             p.setLocation(p.x-1,p.y+1);
@@ -124,7 +124,7 @@ public class Bishop extends Piece{
         p.y=this.coordinates.y-1;
         while(areCoordinatesIn(p)){
             coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
+            if (isTherePiece(squares, p) && !(squares.get(p).getPiece().isWhite != isWhite && squares.get(p).getPiece() instanceof King)){
                 break;
             }
             p.setLocation(p.x-1,p.y-1);

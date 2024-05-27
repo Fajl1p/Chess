@@ -91,51 +91,10 @@ public class Rook extends Piece{
     public ArrayList<Point> attackedSquares(Map<Point, Square> squares){
         ArrayList<Point> coordinates = new ArrayList<>();
 
-        Point p = new Point(this.coordinates.x+1,this.coordinates.y+1);
+        Point p = new Point(this.coordinates.x+1,this.coordinates.y);
         while(areCoordinatesIn(p)){
             coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
-                break;
-            }
-            p.setLocation(p.x+1,p.y+1);
-        }
-
-        p.x=this.coordinates.x+1;
-        p.y=this.coordinates.y-1;
-        while(areCoordinatesIn(p)){
-            coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
-                break;
-            }
-            p.setLocation(p.x+1,p.y-1);
-        }
-
-        p.x=this.coordinates.x-1;
-        p.y=this.coordinates.y+1;
-        while(areCoordinatesIn(p)){
-            coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
-                break;
-            }
-            p.setLocation(p.x-1,p.y+1);
-        }
-
-        p.x=this.coordinates.x-1;
-        p.y=this.coordinates.y-1;
-        while(areCoordinatesIn(p)){
-            coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
-                break;
-            }
-            p.setLocation(p.x-1,p.y-1);
-        }
-
-
-        p.x = this.coordinates.x+1;
-        p.y = this.coordinates.y;
-        while(areCoordinatesIn(p)){
-            coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
+            if (isTherePiece(squares, p) && !(squares.get(p).getPiece().isWhite != isWhite && squares.get(p).getPiece() instanceof King)){
                 break;
             }
             p.setLocation(p.x+1,p.y);
@@ -145,7 +104,7 @@ public class Rook extends Piece{
         p.y=this.coordinates.y+1;
         while(areCoordinatesIn(p)){
             coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
+            if (isTherePiece(squares, p) && !(squares.get(p).getPiece().isWhite != isWhite && squares.get(p).getPiece() instanceof King)){
                 break;
             }
             p.setLocation(p.x,p.y+1);
@@ -155,7 +114,7 @@ public class Rook extends Piece{
         p.y=this.coordinates.y;
         while(areCoordinatesIn(p)){
             coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
+            if (isTherePiece(squares, p) && !(squares.get(p).getPiece().isWhite != isWhite && squares.get(p).getPiece() instanceof King)){
                 break;
             }
             p.setLocation(p.x-1,p.y);
@@ -165,7 +124,7 @@ public class Rook extends Piece{
         p.y=this.coordinates.y-1;
         while(areCoordinatesIn(p)){
             coordinates.add(new Point(p.x, p.y));
-            if (isTherePiece(squares, p)){
+            if (isTherePiece(squares, p) && !(squares.get(p).getPiece().isWhite != isWhite && squares.get(p).getPiece() instanceof King)){
                 break;
             }
             p.setLocation(p.x,p.y-1);
