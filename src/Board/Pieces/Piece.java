@@ -143,7 +143,8 @@ public class Piece {
     }
 
     public void released(MouseEvent e, Board board){
-        ArrayList<Piece> pieces = board.getPieces();
+        //ArrayList<Piece> pieces = board.getPieces();
+        ArrayList<Piece> opponentPieces = board.getOpponentPieces();
         Map<Point, Square> squares = board.getSquares();
         ArrayList<Piece> proPieces = board.getProPieces();
         int boardLength = board.getLength();
@@ -153,7 +154,8 @@ public class Piece {
             squares.get(coordinates).setPiece(null);
 
             if (squares.get(newCoordinates).getPiece()!=null){
-                pieces.remove(squares.get(newCoordinates).getPiece());
+                //pieces.remove(squares.get(newCoordinates).getPiece());
+                opponentPieces.remove(squares.get(newCoordinates).getPiece());
             }
 
             squares.get(newCoordinates).setPiece(this);
@@ -205,6 +207,9 @@ public class Piece {
                         }
                     }
                 }
+            }
+            else{
+                board.setWhiteTurn(!board.isWhiteTurn());
             }
         }
         else{

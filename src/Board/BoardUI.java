@@ -70,7 +70,6 @@ public class BoardUI extends JPanel {
                         board.promote(piece, p);
                         isPromoting = false;
                         piece = null;
-
                         repaint();
                         break;
                     }
