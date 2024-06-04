@@ -88,7 +88,7 @@ public class BoardUI extends JPanel {
 
                 //board.getPieces().remove(piece);
                 //board.getSquares().get(piece.getCoordinates()).setPiece(null);
-                board.updateSquares();
+                //board.updateSquares();
                 //board.getPieces().add(piece);
                 //board.getSquares().get(piece.getCoordinates()).setPiece(piece);
 

@@ -143,18 +143,22 @@ public class Piece {
     }
 
     public void released(MouseEvent e, Board board){
-        //ArrayList<Piece> pieces = board.getPieces();
         ArrayList<Piece> opponentPieces = board.getOpponentPieces();
         Map<Point, Square> squares = board.getSquares();
         ArrayList<Piece> proPieces = board.getProPieces();
         int boardLength = board.getLength();
         Point newCoordinates = new Point((int)(e.getX()/(boardLength/8)),(int)(e.getY()/(boardLength/8)));
 
-        if (moves(squares).contains(newCoordinates)){
+        squares.get(coordinates).setPiece(null);
+        board.updateSquares();
+        squares.get(coordinates).setPiece(this);
+
+        // moves(squares).contains(newCoordinates) && board.isKingNotAttacked() = dont allow moves with the piece that is pinned
+        // this instanceof King && moves(squares).contains(newCoordinates) = allow the piece to move if its king
+        if ((moves(squares).contains(newCoordinates) && board.isKingNotAttacked()) || (this instanceof King && moves(squares).contains(newCoordinates))){
             squares.get(coordinates).setPiece(null);
 
             if (squares.get(newCoordinates).getPiece()!=null){
-                //pieces.remove(squares.get(newCoordinates).getPiece());
                 opponentPieces.remove(squares.get(newCoordinates).getPiece());
             }
 

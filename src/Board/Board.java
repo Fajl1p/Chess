@@ -62,9 +62,9 @@ public class Board {
 
     public Board(int length){
         this.length=length;
-        Knight knight = new Knight(true, length, 5,5);
+        Knight knight = new Knight(true, length, 5,3);
         King king = new King(false, length, 2,2);
-        King king2 = new King(true, length, 5,4);
+        King king2 = new King(true, length, 6,2);
 
         Bishop bishop = new Bishop(false, length, 4,4);
         Rook rook = new Rook(false, length, 0,0);
@@ -169,22 +169,10 @@ public class Board {
     public void promote(Piece piece, Piece piece2){
         Piece newPiece = piece.promote(piece2);
         //pieces.add(newPiece);
-        /*if (isWhiteTurn){
-            piecesWhite.add(newPiece);
-        }
-        else{
-            piecesBlack.add(newPiece);
-        }*/
         getPieces().add(newPiece);
         squares.get(piece.getCoordinates()).setPiece(newPiece);
 
         //pieces.remove(piece);
-        /*if (isWhiteTurn){
-            piecesWhite.remove(piece);
-        }
-        else{
-            piecesBlack.remove(piece);
-        }*/
         getPieces().remove(piece);
 
         isWhiteTurn = !isWhiteTurn;
@@ -224,32 +212,6 @@ public class Board {
             }
         }*/
 
-        /*if (isWhiteTurn){
-            for (Piece p : piecesWhite){
-                for (Point attackedPoint : p.attackedSquares(squares)){
-                    if (p.isWhite()){
-                        squares.get(attackedPoint).setAttackedByWhite();
-                    }
-                    else{
-                        squares.get(attackedPoint).setAttackedByBlack();
-                    }
-                }
-            }
-        }
-        else
-        {
-            for (Piece p : piecesBlack){
-                for (Point attackedPoint : p.attackedSquares(squares)){
-                    if (p.isWhite()){
-                        squares.get(attackedPoint).setAttackedByWhite();
-                    }
-                    else{
-                        squares.get(attackedPoint).setAttackedByBlack();
-                    }
-                }
-            }
-        }*/
-
         for (Piece p : getOpponentPieces()){
             for (Point attackedPoint : p.attackedSquares(squares)){
                 if (p.isWhite()){
@@ -259,6 +221,41 @@ public class Board {
                     squares.get(attackedPoint).setAttackedByBlack();
                 }
             }
+        }
+    }
+
+    public boolean isKingNotAttacked(){
+        //find king in pieces
+        //get coordinates from piece and get square by it
+        //if king is on attacked square = true, else false
+
+        Piece king = null;
+
+        for (Piece p : getPieces()){
+            if (p instanceof King){
+                king = p;
+                System.out.println("King is found");
+                break;
+            }
+        }
+
+
+
+        if (isWhiteTurn){
+            if(squares.get(king.getCoordinates()).isAttackedByBlack()){
+                //System.out.println("White king is attacked");
+                return false;
+            }
+            //System.out.println("White king is not attacked");
+            return true;
+        }
+        else{
+            if(squares.get(king.getCoordinates()).isAttackedByWhite()){
+                //System.out.println("Black king is attacked");
+                return false;
+            }
+            //System.out.println("Black king is not attacked");
+            return true;
         }
     }
 }
