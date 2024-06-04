@@ -48,10 +48,10 @@ public class King extends Piece{
         ArrayList<Point> coordinates = new ArrayList<>();
         for (Point p : points){
 
-            if (areCoordinatesIn(p) && squares.get(p).getPiece()==null && (!squares.get(p).isAttackedByBlack() && isWhite) || (!squares.get(p).isAttackedByWhite() && !isWhite)){
+            if (areCoordinatesIn(p) && squares.get(p).getPiece()==null && !squares.get(p).isAttacked()){
                 coordinates.add(p);
             }
-            else if(areCoordinatesIn(p) && squares.get(p).getPiece()!=null && squares.get(p).getPiece().isWhite!=isWhite && (!squares.get(p).isAttackedByBlack() && isWhite) || (!squares.get(p).isAttackedByWhite() && !isWhite)){
+            else if(areCoordinatesIn(p) && squares.get(p).getPiece()!=null && squares.get(p).getPiece().isWhite!=isWhite && !squares.get(p).isAttacked()){
                 coordinates.add(p);
             }
         }

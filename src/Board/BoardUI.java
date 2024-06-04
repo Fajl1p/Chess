@@ -86,12 +86,6 @@ public class BoardUI extends JPanel {
                 piece.released(e, board);
                 isPromoting = piece.isPromoting();
 
-                //board.getPieces().remove(piece);
-                //board.getSquares().get(piece.getCoordinates()).setPiece(null);
-                //board.updateSquares();
-                //board.getPieces().add(piece);
-                //board.getSquares().get(piece.getCoordinates()).setPiece(piece);
-
                 if (!isPromoting){
                     piece = null;
                 }

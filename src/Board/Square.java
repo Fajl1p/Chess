@@ -5,22 +5,17 @@ import Board.Pieces.Piece;
 public class Square {
     boolean isAttackedByWhite = false;
     boolean isAttackedByBlack = false;
+
+    boolean isAttacked = false;
     Piece piece = null;
 
-    public boolean isAttackedByWhite() {
-        return isAttackedByWhite;
+
+    public boolean isAttacked() {
+        return isAttacked;
     }
 
-    public void setAttackedByWhite() {
-        isAttackedByWhite = true;
-    }
-
-    public boolean isAttackedByBlack() {
-        return isAttackedByBlack;
-    }
-
-    public void setAttackedByBlack() {
-        isAttackedByBlack = true;
+    public void setAttacked() {
+        isAttacked = true;
     }
 
     public Piece getPiece() {
@@ -34,5 +29,7 @@ public class Square {
     public void removeAttacks() {
         isAttackedByWhite = false;
         isAttackedByBlack = false;
+
+        isAttacked = false;
     }
 }
