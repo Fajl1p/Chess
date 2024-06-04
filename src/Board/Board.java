@@ -155,7 +155,7 @@ public class Board {
     public void updateSquares(){
         //remove attacked squares
         for (Square s : squares.values()) {
-            s.removeAttacks();
+            s.removeAttack();
         }
 
         setAttackedSquares();

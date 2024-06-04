@@ -3,12 +3,8 @@ package Board;
 import Board.Pieces.Piece;
 
 public class Square {
-    boolean isAttackedByWhite = false;
-    boolean isAttackedByBlack = false;
-
     boolean isAttacked = false;
     Piece piece = null;
-
 
     public boolean isAttacked() {
         return isAttacked;
@@ -26,10 +22,7 @@ public class Square {
         this.piece = piece;
     }
 
-    public void removeAttacks() {
-        isAttackedByWhite = false;
-        isAttackedByBlack = false;
-
+    public void removeAttack() {
         isAttacked = false;
     }
 }
